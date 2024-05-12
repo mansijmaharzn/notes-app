@@ -9,7 +9,7 @@ from .serializers import NoteSerializer
 
 @api_view(['GET'])
 def get_notes(request):
-    notes = Notes.objects.all()
+    notes = Notes.objects.all().order_by('-updated')
 
     serializer = NoteSerializer(notes, many=True)
 

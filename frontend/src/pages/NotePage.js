@@ -17,7 +17,6 @@ const NotePage = ({history}) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(note),
-      // body: 'tested',
     })
   }
 
