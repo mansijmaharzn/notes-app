@@ -16,6 +16,18 @@ def get_notes(request):
     return Response(serializer.data)
 
 
+@api_view(['POST'])
+def add_note(request):
+    data = request.data
+    note = Notes.objects.create(body=data['body'])
+    serializer = NoteSerializer(note, many=False)
+
+    if serializer.is_valid():
+        serializer.save()
+
+    return Response(serializer.data)
+
+
 @api_view(['GET'])
 def get_note(request, pk):
     note = Notes.objects.get(id=pk)

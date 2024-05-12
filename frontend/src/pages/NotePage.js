@@ -21,6 +21,7 @@ const NotePage = ({history}) => {
   }
 
   let getNote = async () => {
+    if (id === 'new') return;
     const response = await fetch(`/api/notes/${id}`);
     const data = await response.json();
     setNote(data);
@@ -35,17 +36,27 @@ const NotePage = ({history}) => {
     });
   }
 
-  let handleSubmit = () => {
-    updateNote();
+  let createNote = async () => {
+    await fetch(`/api/notes/create`, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(note),
+    });
   }
   
   return (
     <div className='note'>
       <div className='note-header'>
         <h1>
-          <Link onClick={handleSubmit} to='/'> &#x2190; </Link>
+          <Link onClick={updateNote} to='/'> &#x2190; </Link>
         </h1>
+        { id !== 'new' ? (
           <Link onClick={deleteNote} to='/'>Delete</Link>
+        ): (
+          <Link onClick={createNote} to='/'>Done</Link>
+        )}
       </div>
       <textarea onChange={(e) => {setNote({...note, 'body': e.target.value})}} defaultValue={note?.body}></textarea>
     </div>
